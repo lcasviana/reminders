@@ -43,11 +43,11 @@
 
 ### 3. Main Panel — Smart List Views
 
-- [ ] `Today` view: reminders grouped by Morning / Afternoon / Tonight
-- [ ] `Scheduled` view: grouped by specific day labels this week (Today, Tomorrow, Mon 16 Mar…), then "Rest of [Month]", then by month (April, May…)
-- [ ] `All` view: grouped by list, colored list name as section header
-- [ ] `Flagged` view: flat list of flagged reminders
-- [ ] `Completed` view: grouped by relative date (Yesterday, etc.); each row shows title, list name, completion timestamp; total count shown top-right
+- [x] `Today` view: reminders grouped by Morning / Afternoon / Tonight
+- [x] `Scheduled` view: grouped by specific day labels this week (Today, Tomorrow, Mon 16 Mar…), then "Rest of [Month]", then by month (April, May…)
+- [x] `All` view: grouped by list, colored list name as section header
+- [x] `Flagged` view: flat list of flagged reminders
+- [x] `Completed` view: grouped by relative date (Yesterday, etc.); each row shows title, list name, completion timestamp; total count shown top-right
 
 ---
 
