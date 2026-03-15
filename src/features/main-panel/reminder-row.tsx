@@ -6,14 +6,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useReminders } from "@/context/reminders-context";
 import { LIST_COLOR_MAP } from "@/lib/colors";
 import { formatDueTime } from "@/lib/date-utils";
+import { PRIORITY_LABEL } from "@/lib/priority";
 import { cn } from "@/lib/utils";
 import type { Reminder } from "@/schemas/reminder.schema";
-
-const PRIORITY_LABEL: Record<string, string> = {
-  low: "!",
-  medium: "!!",
-  high: "!!!",
-};
 
 type Props = {
   reminder: Reminder;
@@ -21,7 +16,7 @@ type Props = {
 };
 
 export function ReminderRow({ reminder, showList }: Props) {
-  const { lists, completeReminder, uncompleteReminder, updateReminder } = useReminders();
+  const { lists, completeReminder, uncompleteReminder, updateReminder, setEditingReminderId } = useReminders();
   const list = lists.find((l) => l.id === reminder.listId);
   const completed = !!reminder.completedAt;
 
@@ -45,7 +40,7 @@ export function ReminderRow({ reminder, showList }: Props) {
         aria-label={completed ? "Mark incomplete" : "Mark complete"}
       />
 
-      <div className="min-w-0 flex-1">
+      <button onClick={() => setEditingReminderId(reminder.id)} className="min-w-0 flex-1 text-left focus-visible:outline-none">
         <div className="flex items-center gap-2">
           <span className={cn("truncate text-sm", completed && "text-muted-foreground line-through")}>{reminder.title}</span>
 
@@ -62,7 +57,7 @@ export function ReminderRow({ reminder, showList }: Props) {
           )}
           {reminder.notes && <span className="text-muted-foreground max-w-50 truncate text-xs">{reminder.notes.split("\n")[0]}</span>}
         </div>
-      </div>
+      </button>
 
       <button
         onClick={toggleFlag}

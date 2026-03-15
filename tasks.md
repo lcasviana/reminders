@@ -71,16 +71,16 @@
 
 ### 5. Add / Edit Reminder
 
-- [ ] Quick add via `+` button in top bar
-- [ ] Inline add at bottom of list
-- [ ] Detail panel / popover for full editing:
-  - [ ] Title
-  - [ ] Notes
-  - [ ] Due date + time picker
-  - [ ] Flag toggle
-  - [ ] Priority picker
-  - [ ] List assignment
-  - [ ] Section assignment
+- [x] Quick add via `+` button in top bar
+- [x] Inline add at bottom of list
+- [x] Detail panel / popover for full editing:
+  - [x] Title
+  - [x] Notes
+  - [x] Due date + time picker
+  - [x] Flag toggle
+  - [x] Priority picker
+  - [x] List assignment
+  - [x] Section assignment
 
 ---
 

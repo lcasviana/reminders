@@ -30,6 +30,8 @@ type RemindersContextValue = {
   reminders: Reminder[];
   selectedView: SmartList | string;
   setSelectedView: (view: SmartList | string) => void;
+  editingReminderId: string | null;
+  setEditingReminderId: (id: string | null) => void;
 
   getRemindersByList: (listId: string) => Reminder[];
   getIncompleteRemindersByList: (listId: string) => Reminder[];
@@ -64,6 +66,7 @@ function isToday(isoString: string): boolean {
 }
 
 export function RemindersProvider({ children }: { children: React.ReactNode }) {
+  const [editingReminderId, setEditingReminderId] = useState<string | null>(null);
   const [state, setState] = useState<State>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -86,6 +89,8 @@ export function RemindersProvider({ children }: { children: React.ReactNode }) {
       sections,
       reminders,
       selectedView,
+      editingReminderId,
+      setEditingReminderId,
 
       setSelectedView: (view) => setState((prev) => ({ ...prev, selectedView: view })),
 
@@ -170,7 +175,7 @@ export function RemindersProvider({ children }: { children: React.ReactNode }) {
           reminders: prev.reminders.map((r) => (r.sectionId === id ? { ...r, sectionId: undefined } : r)),
         })),
     };
-  }, [state]);
+  }, [state, editingReminderId]);
 
   return <RemindersContext.Provider value={value}>{children}</RemindersContext.Provider>;
 }
