@@ -53,19 +53,19 @@
 
 ### 4. Main Panel — List View
 
-- [ ] List title header (colored, bold) with completion count + Clear link
-- [ ] Show/Hide toggle for completed items (top-right of header)
+- [x] List title header (colored, bold) with completion count + Clear link
+- [x] Show/Hide toggle for completed items (top-right of header)
 - [ ] Toolbar icons: share, view options, `+`, search (top-right)
-- [ ] Collapsible sub-sections within a list
-- [ ] Reminder rows with:
-  - [ ] Checkbox (complete/incomplete toggle)
-  - [ ] Title text
-  - [ ] Due date/time (if set)
-  - [ ] Flag indicator
-  - [ ] Priority indicator (!, !!, !!!)
-  - [ ] Notes snippet
-- [ ] "No Reminders" empty state
-- [ ] Inline add reminder (Enter to create new row at bottom)
+- [x] Collapsible sub-sections within a list
+- [x] Reminder rows with:
+  - [x] Checkbox (complete/incomplete toggle)
+  - [x] Title text
+  - [x] Due date/time (if set)
+  - [x] Flag indicator
+  - [x] Priority indicator (!, !!, !!!)
+  - [x] Notes snippet
+- [x] "No Reminders" empty state
+- [x] Inline add reminder (Enter to create new row at bottom)
 
 ---
 
