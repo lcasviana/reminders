@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Cancel01Icon, PlusSignIcon, Search01Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon, PlusSignIcon, Search01Icon, Share05Icon, SlidersHorizontalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { Button } from "@/components/ui/button";
@@ -64,6 +64,16 @@ export function MainPanel() {
             className="mr-1 h-7 w-48"
             onKeyDown={(e) => e.key === "Escape" && closeSearch()}
           />
+        )}
+        {currentList && (
+          <>
+            <Button variant="ghost" size="icon" aria-label="Share list">
+              <HugeiconsIcon icon={Share05Icon} strokeWidth={2} />
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="View options">
+              <HugeiconsIcon icon={SlidersHorizontalIcon} strokeWidth={2} />
+            </Button>
+          </>
         )}
         <Button
           variant="ghost"

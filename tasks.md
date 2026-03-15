@@ -55,7 +55,7 @@
 
 - [x] List title header (colored, bold) with completion count + Clear link
 - [x] Show/Hide toggle for completed items (top-right of header)
-- [ ] Toolbar icons: share, view options, `+`, search (top-right)
+- [x] Toolbar icons: share, view options, `+`, search (top-right)
 - [x] Collapsible sub-sections within a list
 - [x] Reminder rows with:
   - [x] Checkbox (complete/incomplete toggle)
@@ -102,20 +102,20 @@
 
 ### 8. Styling & Polish
 
-- [ ] Match macOS dark theme colors exactly
-- [ ] Sidebar tile colors (blue Today, red Scheduled, gray All, orange Flagged, gray Completed)
-- [ ] Completed tile spans full width as a standalone row
-- [ ] List icon color theming (colored circle per list)
-- [ ] Hover and focus states throughout
-- [ ] Smooth transitions on sidebar collapse
-- [ ] Responsive layout (mobile via Sheet sidebar — already wired)
+- [x] Match macOS dark theme colors exactly
+- [x] Sidebar tile colors (blue Today, red Scheduled, gray All, orange Flagged, gray Completed)
+- [x] Completed tile spans full width as a standalone row
+- [x] List icon color theming (colored circle per list)
+- [x] Hover and focus states throughout
+- [x] Smooth transitions on sidebar collapse
+- [x] Responsive layout (mobile via Sheet sidebar — already wired)
 
 ---
 
 ### 9. Infrastructure (Phase 1)
 
-- [ ] Update `layout.tsx` metadata (title, description)
-- [ ] Add favicon matching Reminders icon
+- [x] Update `layout.tsx` metadata (title, description)
+- [x] Add favicon matching Reminders icon
 
 ---
 
