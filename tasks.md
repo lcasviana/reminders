@@ -1,0 +1,181 @@
+# Reminders App — Task Tracker
+
+## Status Legend
+
+- [ ] Not started
+- [~] In progress
+- [x] Done
+
+---
+
+## Phase 1 — UI (localStorage, single-user)
+
+### 1. Data Layer (In-Memory)
+
+- [ ] Define Zod schemas as source of truth (`src/schemas/`); infer all TS types from them
+  - `reminderSchema`: id, title, notes, dueDate, flag, priority, listId, sectionId, completedAt
+  - `reminderListSchema`: id, name, color, icon
+  - `reminderSectionSchema`: id, listId, name
+  - `smartListSchema`: enum (Today, Scheduled, All, Flagged, Completed)
+- [ ] Create mock/seed data (lists + sections + reminders with dates, flags, priorities)
+- [ ] Implement in-memory store with React Context (no formal interfaces yet)
+- [ ] CRUD: create, update, delete reminders
+- [ ] CRUD: create, rename, delete lists
+- [ ] CRUD: create, rename, delete sections
+- [ ] Persist state to `localStorage`
+
+---
+
+### 2. Sidebar
+
+- [ ] Smart list tiles: 2×2 grid (Today, Scheduled, All, Flagged) + Completed full-width row below
+  - Colored tile backgrounds matching macOS design
+  - Badge counts per smart list
+- [ ] "My Lists" section with list rows
+  - Colored circle icon per list
+  - Reminder count badge
+  - Shared indicator icon (person icon)
+- [ ] "Add List" button at bottom
+- [ ] Active/selected state highlighting
+- [ ] Sidebar toggle (Cmd+B already wired)
+
+---
+
+### 3. Main Panel — Smart List Views
+
+- [ ] `Today` view: reminders grouped by Morning / Afternoon / Tonight
+- [ ] `Scheduled` view: grouped by specific day labels this week (Today, Tomorrow, Mon 16 Mar…), then "Rest of [Month]", then by month (April, May…)
+- [ ] `All` view: grouped by list, colored list name as section header
+- [ ] `Flagged` view: flat list of flagged reminders
+- [ ] `Completed` view: grouped by relative date (Yesterday, etc.); each row shows title, list name, completion timestamp; total count shown top-right
+
+---
+
+### 4. Main Panel — List View
+
+- [ ] List title header (colored, bold) with completion count + Clear link
+- [ ] Show/Hide toggle for completed items (top-right of header)
+- [ ] Toolbar icons: share, view options, `+`, search (top-right)
+- [ ] Collapsible sub-sections within a list
+- [ ] Reminder rows with:
+  - [ ] Checkbox (complete/incomplete toggle)
+  - [ ] Title text
+  - [ ] Due date/time (if set)
+  - [ ] Flag indicator
+  - [ ] Priority indicator (!, !!, !!!)
+  - [ ] Notes snippet
+- [ ] "No Reminders" empty state
+- [ ] Inline add reminder (Enter to create new row at bottom)
+
+---
+
+### 5. Add / Edit Reminder
+
+- [ ] Quick add via `+` button in top bar
+- [ ] Inline add at bottom of list
+- [ ] Detail panel / popover for full editing:
+  - [ ] Title
+  - [ ] Notes
+  - [ ] Due date + time picker
+  - [ ] Flag toggle
+  - [ ] Priority picker
+  - [ ] List assignment
+  - [ ] Section assignment
+
+---
+
+### 6. Search
+
+- [ ] Search bar in top-right
+- [ ] Filter reminders across all lists by title/notes
+- [ ] Highlight matching text
+
+---
+
+### 7. Toolbar / Top Bar
+
+- [ ] `+` button to add reminder to current list
+- [ ] Search input (right side)
+- [ ] View title (e.g. "Today", list name)
+
+---
+
+### 8. Styling & Polish
+
+- [ ] Match macOS dark theme colors exactly
+- [ ] Sidebar tile colors (blue Today, red Scheduled, gray All, orange Flagged, gray Completed)
+- [ ] Completed tile spans full width as a standalone row
+- [ ] List icon color theming (colored circle per list)
+- [ ] Hover and focus states throughout
+- [ ] Smooth transitions on sidebar collapse
+- [ ] Responsive layout (mobile via Sheet sidebar — already wired)
+
+---
+
+### 9. Infrastructure (Phase 1)
+
+- [ ] Update `layout.tsx` metadata (title, description)
+- [ ] Add favicon matching Reminders icon
+
+---
+
+## Phase 2 — Full-Stack
+
+### 10. Architecture Setup
+
+- [ ] Install runtime deps: `drizzle-orm`, `zod`, `effect`
+- [ ] Install dev deps: `drizzle-kit`
+- [ ] Extend Zod schemas with `userId` field for multi-user support
+- [ ] Define repository `Context.Tag` per domain inside each repository module (`src/repositories/`)
+- [ ] Implement `DrizzleReminderRepository`, `DrizzleListRepository`, `DrizzleSectionRepository` as Effect `Layer`s
+- [ ] Implement `InMemoryReminderRepository`, `InMemoryListRepository` as Effect `Layer`s (dev/test)
+- [ ] Implement `ReminderService`, `ListService` as Effect services consuming repository tags via Effect DI
+- [ ] Set up Drizzle client singleton (`src/lib/db.ts`)
+
+---
+
+### 11. Database
+
+- [ ] Define Drizzle schema (`db/schema.ts`): `users`, `reminderLists`, `reminderSections`, `reminders`
+  - Relations: User → Lists → Sections → Reminders
+  - Fields derived from Zod schemas (extended with `userId`)
+- [ ] Configure drizzle-kit (`drizzle.config.ts`)
+- [ ] Set up PostgreSQL (e.g. Neon or Supabase)
+- [ ] Initial migration via `drizzle-kit generate` + `drizzle-kit migrate`
+
+---
+
+### 12. Authentication
+
+- [ ] Set up NextAuth.js (`src/lib/auth.ts`)
+- [ ] Auth provider(s) (e.g. Google, email/password)
+- [ ] Protect all API routes — verify session before any data access
+- [ ] Scope all queries to `userId` (no cross-user data leakage)
+
+---
+
+### 13. API Route Handlers
+
+- [ ] Each Route Handler: validate request body with Zod → provide Effect `Layer` dependencies → run Effect program → return JSON
+- [ ] `GET/POST /api/lists` — list all lists, create list
+- [ ] `PATCH/DELETE /api/lists/[id]` — update, delete list
+- [ ] `GET/POST /api/lists/[id]/sections` — list sections, create section
+- [ ] `PATCH/DELETE /api/sections/[id]` — update, delete section
+- [ ] `GET/POST /api/reminders` — list reminders (with filters), create reminder
+- [ ] `PATCH/DELETE /api/reminders/[id]` — update, delete reminder
+
+---
+
+### 14. Frontend → API Migration
+
+- [ ] Replace React Context in-memory store with API calls
+- [ ] Add loading and error states throughout
+- [ ] Optimistic updates for toggle/complete actions
+
+---
+
+### 15. Infrastructure (Phase 2)
+
+- [ ] Set up route structure (`/list/[id]`, `/smart/[slug]`)
+- [ ] Environment config (`.env.local`, Vercel env vars)
+- [ ] Deploy to Vercel
