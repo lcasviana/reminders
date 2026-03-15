@@ -1,3 +1,5 @@
+"use client";
+
 import { type ComponentProps } from "react";
 
 import { Input as InputPrimitive } from "@base-ui/react/input";

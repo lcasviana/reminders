@@ -15,6 +15,7 @@ import type { Reminder } from "@/schemas/reminder.schema";
 type Props = {
   reminder: Reminder;
   showList?: boolean;
+  showCompletedTime?: boolean;
   highlight?: string;
 };
 
@@ -37,7 +38,7 @@ function HighlightText({ text, query }: { text: string; query: string }) {
   );
 }
 
-export function ReminderRow({ reminder, showList, highlight }: Props) {
+export function ReminderRow({ reminder, showList, showCompletedTime, highlight }: Props) {
   const { lists, completeReminder, uncompleteReminder, updateReminder, setEditingReminderId } = useReminders();
   const list = lists.find((l) => l.id === reminder.listId);
   const completed = !!reminder.completedAt;
@@ -72,7 +73,11 @@ export function ReminderRow({ reminder, showList, highlight }: Props) {
         </div>
 
         <div className="mt-0.5 flex flex-wrap items-center gap-2">
-          {reminder.dueDate && <span className="text-muted-foreground text-xs">{formatDueTime(reminder.dueDate)}</span>}
+          {showCompletedTime && reminder.completedAt ? (
+            <span className="text-muted-foreground text-xs">{formatDueTime(reminder.completedAt)}</span>
+          ) : (
+            reminder.dueDate && <span className="text-muted-foreground text-xs">{formatDueTime(reminder.dueDate)}</span>
+          )}
           {showList && list && (
             <span className="text-muted-foreground flex items-center gap-1 text-xs">
               <span className={cn("size-2 shrink-0 rounded-full", LIST_COLOR_MAP[list.color] ?? "bg-gray-500")} />

@@ -25,7 +25,7 @@ export function CompletedView() {
         Array.from(groupMap.entries()).map(([label, items]) => (
           <GroupSection key={label} title={label}>
             {items.map((r) => (
-              <ReminderRow key={r.id} reminder={r} showList />
+              <ReminderRow key={r.id} reminder={r} showList showCompletedTime />
             ))}
           </GroupSection>
         ))

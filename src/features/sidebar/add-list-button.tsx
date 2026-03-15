@@ -4,12 +4,16 @@ import { Add01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { useReminders } from "@/context/reminders-context";
+import { useSidebarState } from "@/context/sidebar-context";
 
 export function AddListButton() {
-  const { createList } = useReminders();
+  const { createList, setSelectedView } = useReminders();
+  const { setRenamingListId } = useSidebarState();
 
   function handleAdd() {
-    createList({ name: "New List", color: "blue", shared: false });
+    const id = createList({ name: "New List", color: "blue", shared: false });
+    setSelectedView(id);
+    setRenamingListId(id);
   }
 
   return (

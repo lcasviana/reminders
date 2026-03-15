@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { useReminders } from "@/context/reminders-context";
+import { useInlineAdd } from "@/hooks/use-inline-add";
 import { LIST_TEXT_COLOR_MAP } from "@/lib/colors";
 import { cn } from "@/lib/utils";
 
@@ -14,10 +15,10 @@ type Props = {
 };
 
 export function ListView({ listId }: Props) {
-  const { lists, sections, getRemindersByList, createReminder, deleteReminder } = useReminders();
+  const { lists, sections, getRemindersByList, createReminder, deleteReminder, createSection } = useReminders();
   const [showCompleted, setShowCompleted] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
-  const [isAdding, setIsAdding] = useState(false);
+  const addReminder = useInlineAdd((title) => createReminder({ title, listId, flag: false, priority: "none" }));
+  const addSection = useInlineAdd((name) => createSection({ name, listId }));
 
   const list = lists.find((l) => l.id === listId);
   if (!list) return null;
@@ -27,13 +28,11 @@ export function ListView({ listId }: Props) {
 
   // Single-pass partition into all buckets
   const unsectionedIncomplete: typeof allReminders = [];
-  const unsectionedCompleted: typeof allReminders = [];
   const completedAll: typeof allReminders = [];
   const sectionReminders = new Map<string, typeof allReminders>();
   for (const r of allReminders) {
     if (r.completedAt) {
       completedAll.push(r);
-      if (!r.sectionId) unsectionedCompleted.push(r);
     } else if (r.sectionId) {
       const bucket = sectionReminders.get(r.sectionId) ?? [];
       bucket.push(r);
@@ -48,16 +47,6 @@ export function ListView({ listId }: Props) {
 
   function handleClear() {
     completedAll.forEach((r) => deleteReminder(r.id));
-  }
-
-  function handleAddKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && newTitle.trim()) {
-      createReminder({ title: newTitle.trim(), listId, flag: false, priority: "none" });
-      setNewTitle("");
-    } else if (e.key === "Escape") {
-      setNewTitle("");
-      setIsAdding(false);
-    }
   }
 
   return (
@@ -88,28 +77,49 @@ export function ListView({ listId }: Props) {
       ))}
 
       {/* Inline add */}
-      {isAdding ? (
+      {addReminder.isAdding ? (
         <div className="flex items-center gap-3 px-4 py-2">
           <span className="mt-0.5 size-5 shrink-0 rounded-full border-2 border-gray-400 dark:border-gray-600" />
           <input
             autoFocus
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            onKeyDown={handleAddKeyDown}
-            onBlur={() => {
-              if (!newTitle.trim()) setIsAdding(false);
-            }}
+            value={addReminder.value}
+            onChange={(e) => addReminder.setValue(e.target.value)}
+            onKeyDown={addReminder.handleKeyDown}
+            onBlur={addReminder.handleBlur}
             placeholder="New Reminder"
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-gray-500"
           />
         </div>
       ) : (
         <button
-          onClick={() => setIsAdding(true)}
+          onClick={() => addReminder.setIsAdding(true)}
           className="text-muted-foreground hover:text-foreground mt-1 flex items-center gap-2 px-4 py-1 text-sm transition-colors"
         >
           <span className="text-lg leading-none">+</span>
           New Reminder
+        </button>
+      )}
+
+      {/* Add Section */}
+      {addSection.isAdding ? (
+        <div className="mt-1 px-4 py-1">
+          <input
+            autoFocus
+            value={addSection.value}
+            onChange={(e) => addSection.setValue(e.target.value)}
+            onKeyDown={addSection.handleKeyDown}
+            onBlur={addSection.handleBlur}
+            placeholder="Section Name"
+            className="text-muted-foreground w-full bg-transparent text-xs font-semibold tracking-wide uppercase outline-none placeholder:text-gray-500"
+          />
+        </div>
+      ) : (
+        <button
+          onClick={() => addSection.setIsAdding(true)}
+          className="text-muted-foreground hover:text-foreground mt-1 flex items-center gap-2 px-4 py-1 text-sm transition-colors"
+        >
+          <span className="text-lg leading-none">+</span>
+          Add Section
         </button>
       )}
 
@@ -122,14 +132,14 @@ export function ListView({ listId }: Props) {
               Clear
             </button>
           </div>
-          {unsectionedCompleted.map((r) => (
+          {completedAll.map((r) => (
             <ReminderRow key={r.id} reminder={r} />
           ))}
         </div>
       )}
 
       {/* Empty state */}
-      {incompleteCount === 0 && !isAdding && <p className="text-muted-foreground mt-2 px-4 text-sm">No Reminders</p>}
+      {incompleteCount === 0 && !addReminder.isAdding && <p className="text-muted-foreground mt-2 px-4 text-sm">No Reminders</p>}
     </div>
   );
 }

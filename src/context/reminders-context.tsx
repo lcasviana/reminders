@@ -48,7 +48,7 @@ type RemindersContextValue = {
   completeReminder: (id: string) => void;
   uncompleteReminder: (id: string) => void;
 
-  createList: (data: CreateList) => void;
+  createList: (data: CreateList) => string;
   updateList: (id: string, data: Partial<Omit<ReminderList, "id">>) => void;
   deleteList: (id: string) => void;
 
@@ -136,11 +136,11 @@ export function RemindersProvider({ children }: { children: React.ReactNode }) {
           reminders: prev.reminders.map((r) => (r.id === id ? { ...r, completedAt: undefined } : r)),
         })),
 
-      createList: (data) =>
-        setState((prev) => ({
-          ...prev,
-          lists: [...prev.lists, { ...data, id: crypto.randomUUID() }],
-        })),
+      createList: (data) => {
+        const id = crypto.randomUUID();
+        setState((prev) => ({ ...prev, lists: [...prev.lists, { ...data, id }] }));
+        return id;
+      },
 
       updateList: (id, data) =>
         setState((prev) => ({
