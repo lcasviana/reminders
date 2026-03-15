@@ -86,9 +86,9 @@
 
 ### 6. Search
 
-- [ ] Search bar in top-right
-- [ ] Filter reminders across all lists by title/notes
-- [ ] Highlight matching text
+- [x] Search bar in top-right
+- [x] Filter reminders across all lists by title/notes
+- [x] Highlight matching text
 
 ---
 

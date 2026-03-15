@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { Flag01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
@@ -13,9 +15,29 @@ import type { Reminder } from "@/schemas/reminder.schema";
 type Props = {
   reminder: Reminder;
   showList?: boolean;
+  highlight?: string;
 };
 
-export function ReminderRow({ reminder, showList }: Props) {
+function HighlightText({ text, query }: { text: string; query: string }) {
+  const regex = useMemo(() => (query ? new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi") : null), [query]);
+  if (!regex) return <>{text}</>;
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <mark key={`${i}-${part}`} className="rounded-sm bg-yellow-300/40 text-inherit">
+            {part}
+          </mark>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
+export function ReminderRow({ reminder, showList, highlight }: Props) {
   const { lists, completeReminder, uncompleteReminder, updateReminder, setEditingReminderId } = useReminders();
   const list = lists.find((l) => l.id === reminder.listId);
   const completed = !!reminder.completedAt;
@@ -42,7 +64,9 @@ export function ReminderRow({ reminder, showList }: Props) {
 
       <button onClick={() => setEditingReminderId(reminder.id)} className="min-w-0 flex-1 text-left focus-visible:outline-none">
         <div className="flex items-center gap-2">
-          <span className={cn("truncate text-sm", completed && "text-muted-foreground line-through")}>{reminder.title}</span>
+          <span className={cn("truncate text-sm", completed && "text-muted-foreground line-through")}>
+            <HighlightText text={reminder.title} query={highlight ?? ""} />
+          </span>
 
           {reminder.priority !== "none" && <span className="shrink-0 text-xs font-bold text-red-500">{PRIORITY_LABEL[reminder.priority]}</span>}
         </div>
@@ -55,7 +79,11 @@ export function ReminderRow({ reminder, showList }: Props) {
               {list.name}
             </span>
           )}
-          {reminder.notes && <span className="text-muted-foreground max-w-50 truncate text-xs">{reminder.notes.split("\n")[0]}</span>}
+          {reminder.notes && (
+            <span className="text-muted-foreground max-w-50 truncate text-xs">
+              <HighlightText text={reminder.notes.split("\n")[0]} query={highlight ?? ""} />
+            </span>
+          )}
         </div>
       </button>
 
