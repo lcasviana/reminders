@@ -28,16 +28,16 @@
 
 ### 2. Sidebar
 
-- [ ] Smart list tiles: 2×2 grid (Today, Scheduled, All, Flagged) + Completed full-width row below
+- [x] Smart list tiles: 2×2 grid (Today, Scheduled, All, Flagged) + Completed full-width row below
   - Colored tile backgrounds matching macOS design
   - Badge counts per smart list
-- [ ] "My Lists" section with list rows
+- [x] "My Lists" section with list rows
   - Colored circle icon per list
   - Reminder count badge
   - Shared indicator icon (person icon)
-- [ ] "Add List" button at bottom
-- [ ] Active/selected state highlighting
-- [ ] Sidebar toggle (Cmd+B already wired)
+- [x] "Add List" button at bottom
+- [x] Active/selected state highlighting
+- [x] Sidebar toggle
 
 ---
 

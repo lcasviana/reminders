@@ -32,6 +32,7 @@ type RemindersContextValue = {
   setSelectedView: (view: SmartList | string) => void;
 
   getRemindersByList: (listId: string) => Reminder[];
+  getIncompleteRemindersByList: (listId: string) => Reminder[];
   getRemindersBySection: (sectionId: string) => Reminder[];
   getIncompleteReminders: () => Reminder[];
   getTodayReminders: () => Reminder[];
@@ -89,6 +90,8 @@ export function RemindersProvider({ children }: { children: React.ReactNode }) {
       setSelectedView: (view) => setState((prev) => ({ ...prev, selectedView: view })),
 
       getRemindersByList: (listId) => reminders.filter((r) => r.listId === listId).sort((a, b) => a.order - b.order),
+
+      getIncompleteRemindersByList: (listId) => reminders.filter((r) => r.listId === listId && !r.completedAt).sort((a, b) => a.order - b.order),
 
       getRemindersBySection: (sectionId) => reminders.filter((r) => r.sectionId === sectionId).sort((a, b) => a.order - b.order),
 

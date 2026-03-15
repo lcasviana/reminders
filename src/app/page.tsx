@@ -1,11 +1,12 @@
-import { Sidebar, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/features/sidebar/app-sidebar";
 
 export default function Home() {
   return (
     <SidebarProvider
       style={{ "--sidebar-width": "calc(var(--spacing) * 72)", "--header-height": "calc(var(--spacing) * 12)" } as React.CSSProperties}
     >
-      <Sidebar variant="inset" />
+      <AppSidebar />
       <SidebarInset></SidebarInset>
     </SidebarProvider>
   );
