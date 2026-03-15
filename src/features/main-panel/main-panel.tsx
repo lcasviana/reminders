@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useReminders } from "@/context/reminders-context";
 import { ReminderDetail } from "@/features/reminders/reminder-detail";
+import { LIST_TEXT_COLOR_MAP, SMART_LIST_TEXT_COLOR_MAP } from "@/lib/colors";
+import { cn } from "@/lib/utils";
 import { type SmartList, isSmartList } from "@/schemas/smart-list.schema";
 
 import { AllView } from "./all-view";
@@ -35,7 +37,12 @@ function SmartListView({ view }: { view: SmartList }) {
 }
 
 export function MainPanel() {
-  const { selectedView, setEditingReminderId } = useReminders();
+  const { selectedView, lists, setEditingReminderId } = useReminders();
+
+  const smartList = isSmartList(selectedView) ? selectedView : null;
+  const currentList = smartList ? null : lists.find((l) => l.id === selectedView);
+  const viewTitle = smartList ?? currentList?.name ?? "";
+  const viewTitleColor = smartList ? SMART_LIST_TEXT_COLOR_MAP[smartList] : (LIST_TEXT_COLOR_MAP[currentList?.color ?? ""] ?? "text-gray-500");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -46,7 +53,8 @@ export function MainPanel() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex shrink-0 items-center justify-end gap-1 border-b px-4 py-2">
+      <div className="flex shrink-0 items-center justify-between gap-1 border-b px-4 py-2">
+        <span className={cn("text-lg font-bold", viewTitleColor)}>{viewTitle}</span>
         {searchOpen && (
           <Input
             autoFocus
@@ -72,8 +80,8 @@ export function MainPanel() {
       <div className="flex-1 overflow-y-auto">
         {searchQuery.trim() ? (
           <SearchView query={searchQuery.trim()} />
-        ) : isSmartList(selectedView) ? (
-          <SmartListView view={selectedView} />
+        ) : smartList ? (
+          <SmartListView view={smartList} />
         ) : (
           <ListView listId={selectedView} />
         )}

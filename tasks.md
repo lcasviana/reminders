@@ -94,9 +94,9 @@
 
 ### 7. Toolbar / Top Bar
 
-- [ ] `+` button to add reminder to current list
-- [ ] Search input (right side)
-- [ ] View title (e.g. "Today", list name)
+- [x] `+` button to add reminder to current list
+- [x] Search input (right side)
+- [x] View title (e.g. "Today", list name)
 
 ---
 

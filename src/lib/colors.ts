@@ -19,3 +19,11 @@ export const LIST_TEXT_COLOR_MAP: Record<string, string> = {
   pink: "text-pink-500",
   gray: "text-gray-500",
 };
+
+export const SMART_LIST_TEXT_COLOR_MAP = {
+  Today: "text-blue-500",
+  Scheduled: "text-red-500",
+  All: "text-gray-500",
+  Flagged: "text-orange-500",
+  Completed: "text-gray-500",
+} as const;
