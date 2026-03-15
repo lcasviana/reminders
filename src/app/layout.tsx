@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 
+import { RemindersProvider } from "@/context/reminders-context";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -29,7 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <RemindersProvider>{children}</RemindersProvider>
+      </body>
     </html>
   );
 }

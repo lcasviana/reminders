@@ -12,17 +12,17 @@
 
 ### 1. Data Layer (In-Memory)
 
-- [ ] Define Zod schemas as source of truth (`src/schemas/`); infer all TS types from them
+- [x] Define Zod schemas as source of truth (`src/schemas/`); infer all TS types from them
   - `reminderSchema`: id, title, notes, dueDate, flag, priority, listId, sectionId, completedAt
   - `reminderListSchema`: id, name, color, icon
   - `reminderSectionSchema`: id, listId, name
   - `smartListSchema`: enum (Today, Scheduled, All, Flagged, Completed)
-- [ ] Create mock/seed data (lists + sections + reminders with dates, flags, priorities)
-- [ ] Implement in-memory store with React Context (no formal interfaces yet)
-- [ ] CRUD: create, update, delete reminders
-- [ ] CRUD: create, rename, delete lists
-- [ ] CRUD: create, rename, delete sections
-- [ ] Persist state to `localStorage`
+- [x] Create mock/seed data (lists + sections + reminders with dates, flags, priorities)
+- [x] Implement in-memory store with React Context (no formal interfaces yet)
+- [x] CRUD: create, update, delete reminders
+- [x] CRUD: create, rename, delete lists
+- [x] CRUD: create, rename, delete sections
+- [x] Persist state to `localStorage`
 
 ---
 
